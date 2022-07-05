@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "tool-container-benchmark-dbdeploy"
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-deploy
+          image:
+          args:
+            - -url=jdbc:jtds:sqlserver://$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+            - -user=$(DB_DEPLOY_USERNAME)
+            - -password=$(DB_DEPLOY_PASSWORD)
+            - -schemas=ContainerBenchmark
+            - -locations=filesystem:/migrations
+            - -X
+            - migrate
+          envFrom:
+            - secretRef:
+                name: "tool-container-benchmark-dbdeploy"
+            - configMapRef:
+                name: tool-container-benchmark
+          resources:
+            requests:
+              cpu: 50m
+              memory: 200Mi
+            limits:
+              memory: 200Mi
+      restartPolicy: Never

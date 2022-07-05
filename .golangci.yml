@@ -1,0 +1,54 @@
+run:
+  concurrency: 3
+  deadline: 3m
+
+linters:
+  enable-all: true
+
+  disable:
+    # Redundant or deprecated
+    - depguard
+    - gofmt
+    - goheader
+    - goimports
+    - golint
+    - gomodguard
+    - interfacer
+    - maligned
+    - scopelint
+
+    # Too many false positives
+    - exhaustive
+    - exhaustivestruct
+    - godox
+    - nilerr
+    - ireturn
+
+    # Highly subjective
+    - gomnd
+    - gosec
+    - nilnil
+    - nlreturn
+    - paralleltest
+    - varnamelen
+    - wrapcheck
+    - wsl
+
+    # Too restrictive in many cases
+    - tagliatelle
+    - testpackage
+    - unparam
+
+    # Too much work
+    - goerr113
+    - lll
+
+linters-settings:
+  unused:
+    check-exported: true
+  gocyclo:
+    min-complexity: 10
+  gocognit:
+    min-complexity: 15
+  goconst:
+    min-occurrences: 5
